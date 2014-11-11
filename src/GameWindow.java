@@ -14,13 +14,13 @@ public class GameWindow extends JFrame {
 	 */
 	public GameWindow() {
 		setTitle("Puzzle Bubble");
-		Screen screen = new Screen();
-		add(screen);
+		Game game = new Game();
+		add(game);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 
-		screen.setFocusable(true);
-		screen.requestFocusInWindow();
+		game.setFocusable(true);
+		game.requestFocusInWindow();
 		
 		setVisible(true);
 		

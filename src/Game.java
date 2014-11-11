@@ -9,10 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -30,8 +34,7 @@ public class Game extends JPanel implements KeyListener {
 
 	public static int screenWidth = 600;
 	public static int screenHeight = 500;
-	public static ImageIcon backgroundImg = new ImageIcon("space.jpg");
-	public static ImageIcon asteroidImg = new ImageIcon("SingleAsteroid.gif");
+	public static ImageIcon greenBubble = new ImageIcon("green.gif");
 	public static ImageIcon shipImg = new ImageIcon("PlayerShip.gif");
 	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
 
@@ -39,7 +42,7 @@ public class Game extends JPanel implements KeyListener {
 	public static int asteroidHeight = 80;
 	public static int asteroidPoints = 10;
 
-	private ArrayList<OnScreenObjects> OnScreenObjects;
+	private ArrayList<OnScreenObjects> gameObjects;
 	private Score theScore;
 	
 	private javax.swing.Timer timer;
@@ -51,16 +54,18 @@ public class Game extends JPanel implements KeyListener {
 	private boolean displayPlayNextLife = false;
 	private boolean displayGameOver = false;
 	private boolean displayNewLevel = false;
+	
+	ArrayList<Bubbles> clump = new ArrayList<Bubbles>();
 
 	/**
 	 * The screen has a black background.  When first
 	 * create the game Level is 1.  Asteroids, ships, and the
 	 * score are added.  The timer begins.
 	 */
-	public Screen() {
+	public Game() {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
-		OnScreenObjects = new ArrayList<OnScreenObjects>();
+		gameObjects = new ArrayList<OnScreenObjects>();
 		
 		currentLevel = new Level(1);
 
@@ -69,7 +74,7 @@ public class Game extends JPanel implements KeyListener {
 		
 		theScore = new Score(new Point(screenWidth/2 - 5, 30),
 				new Rectangle(0,0));
-		OnScreenObjects.add(theScore);
+		gameObjects.add(theScore);
 		
 		this.addKeyListener(this);
 
@@ -86,7 +91,7 @@ public class Game extends JPanel implements KeyListener {
 		
 		
 		// remove all moving objects
-		Iterator<OnScreenObjects> it = OnScreenObjects.iterator();
+		Iterator<OnScreenObjects> it = gameObjects.iterator();
 		while (it.hasNext()) {
 			OnScreenObjects obj = it.next();
 			if (obj instanceof MovingObjects) {
@@ -99,35 +104,16 @@ public class Game extends JPanel implements KeyListener {
 		// add player's ship // for simplicity, let's always add the ship at
 		// index 0
 		int x = screenWidth / 2 - 10;
-		int y = screenHeight / 2;
-		Ship playerShip = new Ship(new Point(x, y), new Rectangle(20, 20),
-				shipImg.getImage());
-		playerShip.setVector(new MyVector(0, 0));
-		playerShip.setAngle(0);
-		OnScreenObjects.add(0, playerShip); // always at index 0
+		int y = screenHeight;
+		Cannon player = new Cannon(new Point(x, y), new Rectangle(20, 20),
+				shipImg.getImage(), 90, new MyVector(0, 0));
 
-		// for loop to add asteroids
-		for (int count = 0; count < currentLevel.getNumberOfAsteroid(); count++) {
-			// generate random location
-			x = generator.nextInt(screenWidth);
-			y = generator.nextInt(screenHeight);
-			// generate size
-			int width = asteroidWidth;
-			int height = asteroidHeight; // trial sizes
+		gameObjects.add(0, player); // always at index 0
 
-			int points = asteroidPoints; // trial points
+		//////////////////////////////////////////////////////////////////////////////////
+		// add initial bubbles
+		//////////////////////////////////////////////////////////////////////////////////
 
-			Asteroid asteroid = new Asteroid(new Point(x, y), new Rectangle(
-					width, height), points, asteroidImg.getImage());
-
-			// generate trial vector
-			double dx = 10 * Math.random() - 5;
-			double dy = 10 * Math.random() - 5;
-			asteroid.setVector(new MyVector(dx, dy));
-
-			OnScreenObjects.add(asteroid);
-
-		} // finished adding asteroids
 
 		
 	}
@@ -147,7 +133,7 @@ public class Game extends JPanel implements KeyListener {
 		// 0, 0, screenWidth, screenHeight, null);
 
 		// draw objects
-		for (OnScreenObjects obj : OnScreenObjects) {
+		for (OnScreenObjects obj : gameObjects) {
 			obj.draw(g);
 		}
 		
@@ -155,7 +141,7 @@ public class Game extends JPanel implements KeyListener {
 		if (this.displayPlayNextLife) {
 			g.setColor(Color.white);
 			g.setFont(new Font("Serif", Font.BOLD, 36));
-			g.drawString("You have " + lives + " ships left.", 150, (int) (0.4*screenHeight));
+			g.drawString("You have " + lives + " lives left.", 150, (int) (0.4*screenHeight));
 			
 			g.drawString("Press Enter to Continue", 135, (int) (0.6*screenHeight));
 
@@ -215,134 +201,45 @@ public class Game extends JPanel implements KeyListener {
 		public void actionPerformed(ActionEvent arg0) {
 
 			// remove things that are too old
-			for (int i = 0; i < OnScreenObjects.size(); i++) {
-				OnScreenObjects obj = OnScreenObjects.get(i);
+			/** for (int i = 0; i < gameObjects.size(); i++) {
+				OnScreenObjects obj = gameObjects.get(i);
 				if (obj instanceof MovingObjects) {
 					MovingObjects movingObj = (MovingObjects) obj;
 					if (movingObj.getAge() > movingObj.getMaxAge()) {
-						OnScreenObjects.remove(obj);
+						gameObjects.remove(obj);
 					}
 				}
-			}
-			// before moving, see if there were collisions from
-			// the last movement
-
-			for (int i = 0; i < OnScreenObjects.size(); i++) {
-				OnScreenObjects obj = OnScreenObjects.get(i);
-
+			} */
+			
+				
+					
+			// move each object
+			for (OnScreenObjects obj : gameObjects) {
 				if (obj instanceof MovingObjects) {
 					MovingObjects movingObj = (MovingObjects) obj;
-					// now see if it collides with any other objects
-					for (int j = i + 1; j < OnScreenObjects.size(); j++) {
-						OnScreenObjects otherObj = OnScreenObjects.get(j);
-						if (!(otherObj instanceof MovingObjects)) {
-							continue;
-						}
-						if (movingObj == otherObj) {
-							continue;  // in other words, don't compare to self
-						}
-						if (otherObj instanceof MovingObjects) {
-							MovingObjects otherMovingObj = (MovingObjects) otherObj;
-							if (movingObj.collide(otherMovingObj)) {
-								;
-								; // do something
-
-								if (movingObj instanceof Ship) {
-									// ship is destroyed if it hits anything
-									
-									// if the 2nd object is a shot, make
-									// sure it is older than 2 time clicks
-									// This prevents the ship from shooting itself.
-									if (otherMovingObj instanceof Shot) {
-										if (otherMovingObj.getAge() <= 4) {
-											continue;
-										}
-									}
-									Explosion explosion = new Explosion(
-											movingObj.location,
-											movingObj.getSize(),
-											explosionImg.getImage(), 0);
-									explosion.setVector(new MyVector(0, 0));
-									OnScreenObjects.add(explosion);
-									OnScreenObjects.remove(movingObj);// ship must be at zero
-									break;
-								}
-
-								else if (movingObj instanceof Asteroid
-										&& otherMovingObj instanceof Shot) {
-									Asteroid asteroid = (Asteroid) movingObj;
-									theScore.setScore(theScore.getScore() +
-											asteroid.getPointValue());
-									
-									if (movingObj.getSize().getWidth() >= asteroidWidth) {
-										// break into two
-										OnScreenObjects.remove(movingObj);
-										Point p = movingObj.location;
-
-										for (int count = 0; count < 2; count++) {
-											Asteroid small1 = new Asteroid(
-													new Point(
-															p.x
-																	+ count
-																	* asteroidWidth
-																	/ 2, p.y),
-													new Rectangle(
-															asteroidWidth / 2,
-															asteroidHeight / 2),
-													2 * asteroidPoints,
-													asteroidImg.getImage());
-											// generate trial vector
-											double dx = 20 * Math.random() - 10;
-											double dy = 20 * Math.random() - 10;
-											small1.setVector(new MyVector(dx,
-													dy));
-
-											OnScreenObjects.add(small1);
-										}
-
-									} else {
-										// destroy the asteroid
-										OnScreenObjects.remove(movingObj);
-									}
-									Explosion explosion = new Explosion(
-											movingObj.location,
-											movingObj.getSize(),
-											explosionImg.getImage(), 0);
-									explosion.setVector(new MyVector(0, 0));
-									OnScreenObjects.add(explosion);
-									OnScreenObjects.remove(otherMovingObj);
-								}
-							}
-						}
-					}
-				}
-
-			}
-			// move each object
-			for (OnScreenObjects obj : OnScreenObjects) {
-				if (obj instanceof MovingOnScreenObjects) {
-					MovingOnScreenObjects movingObj = (MovingOnScreenObjects) obj;
 					movingObj.move();
 				}
 			}
 			
-			// if no ship and no explosions, then stop game and display Next Life 
+			////////////////////////////////////////////////////////////
+			// TODO bubble hoard logic here
+			//////
+			
+			
+			
+			// if lose - stop game and display Next Life 
 			// if there are more lives
-			boolean shipFound = false;
-			boolean explosionFound = false;
-			boolean asteroidFound = false;
-			for (OnScreenObjects obj : OnScreenObjects) {
-				if (obj instanceof Ship) {
-					shipFound = true;
+			boolean alive = false;
+			boolean bubblesFound = false;
+			for (OnScreenObjects obj : gameObjects) {
+				if (obj instanceof Cannon) {
+					alive = true;
 				} 
-				else if (obj instanceof Explosion) {
-					explosionFound = true;
-				}
-				else if (obj instanceof Asteroid) {
-					asteroidFound = true;
+				else if (obj instanceof Bubbles) {
+					bubblesFound = true;
 				}
 			}
-			if (!shipFound && !explosionFound) {
+			if (!alive) {
 				timer.stop();
 				lives--;
 				if (lives > 0) {
@@ -353,7 +250,7 @@ public class Game extends JPanel implements KeyListener {
 				}
 			}
 			else {
-				if (!asteroidFound) {
+				if (!bubblesFound) {
 					timer.stop();
 					displayNewLevel = true;
 				}
@@ -375,9 +272,9 @@ public class Game extends JPanel implements KeyListener {
 	 */
 	public void keyPressed(KeyEvent event) {
 		int keyCode = event.getKeyCode();
-		Ship playerShip = null;
-		if (OnScreenObjects.get(0) instanceof Ship) {
-			playerShip = (Ship) OnScreenObjects.get(0);
+		Cannon player = null;
+		if (gameObjects.get(0) instanceof Cannon) {
+			player = (Cannon) gameObjects.get(0);
 		}
 		switch (keyCode) {
 		
@@ -397,70 +294,44 @@ public class Game extends JPanel implements KeyListener {
 			}
 			break;
 			
-				
-			case KeyEvent.VK_UP:
-			// handle up
-			// go forward
-			if (playerShip != null) {
-				Point location = playerShip.getLocation();
-				double angle = playerShip.getAngle();
-				// set up changeX and changeY
-				// first assume the end point is 5 pixels to the right
-				double endX = location.x + 5;
-				double endY = location.y;
-	
-				// vector = new MyVector(0, 0);
-	
-				double newEndX = location.x + (endX - location.x)
-						* Math.cos(Math.toRadians(angle)) - (endY - location.y)
-						* Math.sin(Math.toRadians(angle));
-				double newEndY = location.y + (endX - location.x)
-						* Math.sin(Math.toRadians(angle));
-	
-				double changeX = (newEndX - location.x);
-				double changeY = (newEndY - location.y);
-				MyVector vector = new MyVector(changeX, changeY);
-				playerShip.setVector(vector);
-			}
-
-			break;
-		case KeyEvent.VK_DOWN:
-			// handle down
-			if (playerShip != null) {
-				MyVector vector = new MyVector(0, 0);
-				playerShip.setVector(vector);
-			}
-
-			break;
 		case KeyEvent.VK_RIGHT:
-			if (playerShip != null) {
-				double newAngle = playerShip.getAngle() + 5;
+			if (player != null) {
+				double newAngle = player.getAngle() + 5;
 				if (newAngle > 360) {
 					newAngle -= 360;
 				}
-				playerShip.setAngle(newAngle);
+				player.setAngle(newAngle);
 			}
 
 			break;
 		case KeyEvent.VK_LEFT:
-			if (playerShip != null) {
-				double newAngle = playerShip.getAngle() - 5;
+			if (player != null) {
+				double newAngle = player.getAngle() - 5;
 				if (newAngle < 0) {
 					newAngle += 360;
 				}
-				playerShip.setAngle(newAngle);
+				player.setAngle(newAngle);
 			}
 			break;
 
 		case KeyEvent.VK_SPACE:
-			if (playerShip != null) {
-				Point p = playerShip.getLocation();
-				double a = playerShip.getAngle();
-				Rectangle r = playerShip.getSize();
-				Shot shot = new Shot(new Point(p.x + r.width / 2, p.y + r.height
-						/ 2), new Rectangle(15, 2), null, a);
+			if (player != null) {
+				Point p = player.getLocation();
+				double a = player.getAngle();
+				////////////////////////////////////////////////////
+				// TODO logic to decide which bubble to send up
+				MyVector v = new MyVector(Math.cos(a), Math.sin(a));
+				
+				Rectangle r = player.getSize();
+				
+				Bubbles bubble = new Bubbles(new Point(p.x + r.width / 2, p.y + r.height/ 2),
+												 new Rectangle(10, 10),
+												 shipImg.getImage(),
+												 a, 
+												 v);
+
 	
-				OnScreenObjects.add(shot);
+				gameObjects.add(bubble);
 			}
 
 			break;

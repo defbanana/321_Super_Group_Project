@@ -1,36 +1,11 @@
+
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-
-
-public abstract class MovingObjects extends OnScreenObjects {
-	Image image;
-	MyVector objectVector;
-
-	public MovingObjects(Point p, Rectangle r, Image i, MyVector v) {
-		super(p, r);
-		image = i;
-		objectVector=v;
-		// TODO Auto-generated constructor stub
-	}
-	public void setImage(Image i){
-		image=i;
-	}
-	public Image getImage(){
-		return image;
-	}
-	@Override
-	abstract public void draw(Graphics g);
-	
-
-	import java.awt.Graphics;
-	import java.awt.Graphics2D;
-	import java.awt.Image;
-	import java.awt.Point;
-	import java.awt.Rectangle;
-	import java.awt.geom.AffineTransform;
-	import java.awt.image.AffineTransformOp;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 
 /**
  * A MovingScreenObject has a vector (changeX and changeY), an angle, an image,
@@ -59,8 +34,9 @@ protected int maxAge;
  * @param angle
  *            The object's orientation.
  */
-	public MovingScreenObject(Point location, Rectangle size, Image i,
-			double angle) {
+	public MovingObjects(Point location, Rectangle size, Image i,
+			double angle, MyVector v) {
+		
 		super(location, size);
 		myImage = i;
 		this.angle = angle;
@@ -73,33 +49,27 @@ protected int maxAge;
 	 * To move an object, add its vector to its location. Check for boundary
 	 * conditions. Increase the age by 1.
 	 */
+	
+	
 	public void move() {
 	
 		location.x += vector.getChangeX();
 		location.y += vector.getChangeY();
 	
-		if (location.x > Screen.screenWidth) {
-			location.x -= Screen.screenWidth;
+		if (location.x > Game.screenWidth) {
+			location.x -= Game.screenWidth;
 		}
 		if (location.x < 0) {
-			location.x += Screen.screenWidth;
+			location.x += Game.screenWidth;
 		}
 	
-		if (location.y > Screen.screenHeight) {
-			location.y -= Screen.screenHeight;
+		if (location.y > Game.screenHeight) {
+			location.y -= Game.screenHeight;
 		}
 		if (location.y < 0) {
-			location.y += Screen.screenHeight;
+			location.y += Game.screenHeight;
 		}
-	
-		// ships should slow down over time
-		if (this instanceof Ship) {
-			if (vector.getChangeX() > 0 || vector.getChangeY() > 0) {
-				vector.setChangeX(0.99 * vector.getChangeX());
-				vector.setChangeY(0.99 * vector.getChangeY());
-	
-			}
-		}
+
 		age++;
 	
 	}
@@ -111,7 +81,7 @@ protected int maxAge;
 	 *            The other moving object.
 	 * @return True if there is a collision; false, otherwise.
 	 */
-	public boolean collide(MovingScreenObject otherObj) {
+	public boolean collide(MovingObjects otherObj) {
 		Rectangle otherR = otherObj.getSize();
 		otherR.setLocation(otherObj.getLocation());
 		this.getSize().setLocation(this.getLocation());
@@ -132,10 +102,9 @@ protected int maxAge;
 	 * Draw the object by displaying its image.
 	 */
 	public void draw(Graphics g) {
-		// reminder ... later we want to rotate image by
-		// changeX and changeY
+		// This section will take care of the rotating gun
 		Graphics2D g2 = (Graphics2D) g;
-		if (this instanceof Ship) {
+		/** if (this instanceof Ship) {
 			Ship ship = (Ship) this;
 	
 			// AffineTransform identity = new AffineTransform();
@@ -148,10 +117,10 @@ protected int maxAge;
 					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
 	
 			g2.drawImage(myImage, trans, null);
-		} else {
+		} else { */
 			g2.drawImage(myImage, location.x, location.y, size.width,
 					size.height, null);
-		}
+		//}
 	}
 	
 	/**
@@ -172,7 +141,7 @@ protected int maxAge;
 	}
 	
 	/**
-	 * Retreive the image.
+	 * Retrieve the image.
 	 * @return the myImage
 	 */
 	public Image getMyImage() {
@@ -189,7 +158,7 @@ protected int maxAge;
 	}
 	
 	/**
-	 * Retreive the angle.
+	 * Retrieve the angle.
 	 * @return the angle
 	 */
 	public double getAngle() {

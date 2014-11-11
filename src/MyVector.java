@@ -4,7 +4,7 @@
  * Stores the change in X and change in Y for an object.
  * The idea is that when the timer goes off, these values will
  * be added to the position of the object.  
- * @author guinnc
+ * @author 
  *
  */
 public class MyVector {
@@ -21,7 +21,7 @@ public class MyVector {
 		this.changeY = changeY;
 	}
 	/**
-	 * Retreive the change in X.
+	 * Retrieve the change in X.
 	 * @return the changeX
 	 */
 	public double getChangeX() {
@@ -53,7 +53,7 @@ public class MyVector {
 	 * Get the direction of the vector
 	 * @return
 	 */
-	public double getAngle() {
+	public double getAngleDeg() {
 		return Math.toDegrees(Math.atan2(getChangeY(), getChangeX()));
 	}
 }

@@ -28,5 +28,3 @@ blue
 blue
 yellow
 yellow
-red
-red

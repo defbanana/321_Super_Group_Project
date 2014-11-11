@@ -1,3 +1,8 @@
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
 /**
  * The game's Level determines how hard the game is for the user.
  * For instance, at each level, there may be more asteroids.
@@ -17,15 +22,20 @@ public class Level {
 	 */
 	public Level(int number) {
 		levelNumber = number;
+		File bubbleFile = new File("bubbles.txt");
+		
+		
+		//bunch = new ArrayList<ArrayList<Bubbles>>();
+	    //Scanner sc = new Scanner(bubbleFile);
 	}
 
 	/**
-	 * Returns the number of asteroids for a given level.  It is
-	 * calculated by adding 1 to the level number.
-	 * @return The number of asteroids for a level.  
+	 * Sets the number of starting bubbles to the level
+	 * @return The number of starting bubbles  
 	 */
-	public int getNumberOfAsteroid() {
-		return levelNumber + 1;
+	public int getNumberOfBubbles() {
+		Random rnd = new Random();
+		return rnd.nextInt(20);
 	}
 	/**
 	 * Retrieves the level number.
