@@ -35,6 +35,10 @@ public class Game extends JPanel implements KeyListener {
 	public static int screenWidth = 600;
 	public static int screenHeight = 500;
 	public static ImageIcon greenBubble = new ImageIcon("green.gif");
+	public static ImageIcon blueBubble = new ImageIcon("blue.gif");
+	public static ImageIcon redBubble = new ImageIcon("red.gif");
+	public static ImageIcon yellowBubble = new ImageIcon("yellow.gif");
+	
 	public static ImageIcon shipImg = new ImageIcon("PlayerShip.gif");
 	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
 
@@ -42,7 +46,9 @@ public class Game extends JPanel implements KeyListener {
 	public static int asteroidHeight = 80;
 	public static int asteroidPoints = 10;
 
-	private ArrayList<OnScreenObjects> gameObjects;
+	public static ArrayList<OnScreenObjects> gameObjects;
+	
+	
 	private Score theScore;
 	
 	private javax.swing.Timer timer;
@@ -54,12 +60,9 @@ public class Game extends JPanel implements KeyListener {
 	private boolean displayPlayNextLife = false;
 	private boolean displayGameOver = false;
 	private boolean displayNewLevel = false;
-	
-	ArrayList<Bubbles> clump = new ArrayList<Bubbles>();
 
 	/**
-	 * The screen has a black background.  When first
-	 * create the game Level is 1.  Asteroids, ships, and the
+	 * The screen has a black background.
 	 * score are added.  The timer begins.
 	 */
 	public Game() {
@@ -98,8 +101,7 @@ public class Game extends JPanel implements KeyListener {
 				it.remove();
 			}
 		}
-		
-		Random generator = new Random();
+
 
 		// add player's ship // for simplicity, let's always add the ship at
 		// index 0
@@ -113,7 +115,9 @@ public class Game extends JPanel implements KeyListener {
 		//////////////////////////////////////////////////////////////////////////////////
 		// add initial bubbles
 		//////////////////////////////////////////////////////////////////////////////////
-
+		for (Bubbles bubble : currentLevel.theHorde){
+			gameObjects.add(bubble);
+		}
 
 		
 	}
@@ -222,7 +226,7 @@ public class Game extends JPanel implements KeyListener {
 			}
 			
 			////////////////////////////////////////////////////////////
-			// TODO bubble hoard logic here
+			// TODO bubble logic here
 			//////
 			
 			
@@ -254,8 +258,9 @@ public class Game extends JPanel implements KeyListener {
 					timer.stop();
 					displayNewLevel = true;
 				}
-			// if there are no asteroids or saucers left
+			// if there are no bubbles left
 			// level is won.
+			// Game is won when we run out of levels
 			
 			}
 

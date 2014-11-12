@@ -1,7 +1,14 @@
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
+
+import javax.swing.ImageIcon;
 
 /**
  * The game's Level determines how hard the game is for the user.
@@ -13,7 +20,19 @@ import java.util.Scanner;
  */
 public class Level {
 
+	public static ImageIcon greenBubble = new ImageIcon("green.gif");
+	public static ImageIcon blueBubble = new ImageIcon("blue.gif");
+	public static ImageIcon redBubble = new ImageIcon("red.gif");
+	public static ImageIcon yellowBubble = new ImageIcon("yellow.gif");
+	
 	private int levelNumber;
+	private int bubblesInLevel;
+	private final int startX = 220;
+	private final int startY = 100;
+	private final int xSpacer = 20;
+	private final int ySpacer = 20;
+	
+	public ArrayList<Bubbles> theHorde = new ArrayList<Bubbles>();
 	
 	/**
 	 * Each Level has an associated number starting at "number".
@@ -22,11 +41,98 @@ public class Level {
 	 */
 	public Level(int number) {
 		levelNumber = number;
-		File bubbleFile = new File("bubbles.txt");
+		File bubbleFile = new File("bubbles"+ Integer.toString(number) + ".txt");
+		bubblesInLevel = -1;
+		int bubbleCount = 0;
+		int column = 1;
+		int row = -1;
+		int nook = 0;
 		
-		
-		//bunch = new ArrayList<ArrayList<Bubbles>>();
-	    //Scanner sc = new Scanner(bubbleFile);
+		Scanner sc = null;
+	    try {			
+	    	sc = new Scanner(bubbleFile);
+	    	
+			Bubbles newBubble = null;
+		    while (sc.hasNextLine()) {
+		    	bubbleCount++;
+		    	bubblesInLevel++;
+		    	row++;
+		    	////////////////////////////////////////
+		    	// position
+		    	if (bubbleCount == 24){
+		    		column = 4;
+		    		row = 0;
+		    		nook = xSpacer / 2;
+		    	}
+		    	else if (bubbleCount == 16) {
+		    		column = 3;
+		    		row = 0;
+		    		nook = 0;
+		    	}
+		    	else if (bubbleCount == 9) {
+		    		row = 0;
+		    		column = 2;
+		    		nook = xSpacer / 2;
+		    	}
+
+		    	
+		    	////////////////////////////////////////
+		    	// level position
+		    	Point p = new Point();
+		    	p.x = startX + (row * xSpacer) + nook;
+		    	p.y = startY + (column * ySpacer);
+		    	
+		    	Rectangle r = new Rectangle(xSpacer, ySpacer);
+		    	
+		    	MyVector v = new MyVector(0, 0);
+		    	
+		    	double a = 0.0;
+		    	////////////////////////////////////////
+		    	// bubble color from level file
+		    	
+		    	//  Increment to the next line on the text file
+		    	String bubbleColor = "";
+		    	
+		    	// Catch if we are at end of the file
+		    	try{
+		    		bubbleColor = sc.next();
+		    	
+			    	if (bubbleColor.equals("red")){
+			    		
+			    		newBubble = new Bubbles(p, r, redBubble.getImage(), a, v);
+			    		theHorde.add(newBubble);
+			    		
+			    	} else if (bubbleColor.equals("green")){
+			    		
+			    		newBubble = new Bubbles(p, r, greenBubble.getImage(), a, v);
+			    		theHorde.add(newBubble);
+			    		
+			    	} else if (bubbleColor.equals("yellow")){
+			    		
+			    		newBubble = new Bubbles(p, r, yellowBubble.getImage(), a, v);
+			    		theHorde.add(newBubble);
+			    		
+			    	} else if (bubbleColor.equals("blue")){
+			    		
+			    		newBubble = new Bubbles(p, r, blueBubble.getImage(), a, v);		
+			    		theHorde.add(newBubble);
+			    		
+			    	} else {
+			    		
+			    		bubblesInLevel--;
+			    		System.out.print("No bubble here at " + Integer.toString(bubbleCount));
+			    	}
+		    	}
+		    	catch(NoSuchElementException e){
+		    		System.out.print(e.toString());
+		    	}
+		    	
+		    }
+		    sc.close();
+	    } 
+	    catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -34,8 +140,8 @@ public class Level {
 	 * @return The number of starting bubbles  
 	 */
 	public int getNumberOfBubbles() {
-		Random rnd = new Random();
-		return rnd.nextInt(20);
+
+		return bubblesInLevel;
 	}
 	/**
 	 * Retrieves the level number.
@@ -54,5 +160,10 @@ public class Level {
 	}
 	
 	
-
+	/** public void Boom(Bubbles popped) throws IOException{
+	popped.pop();
+	int bi = clump.indexOf(popped);
+	clump.remove(bi);
+	
+} */
 }

@@ -66,12 +66,6 @@ public class Bubbles extends MovingObjects {
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	public void pop() throws IOException{
 		//should use animation to show pop.For now.
 		//call animation
