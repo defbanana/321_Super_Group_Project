@@ -54,8 +54,8 @@ protected int maxAge;
 	
 	public void move() {
 	
-		location.x += vector.getChangeX();
-		location.y += vector.getChangeY();
+		location.x += vector.getChangeX() * 10;
+		location.y += vector.getChangeY() * 10;
 	
 		///////////////////////////////////////////////
 		// TODO Bubble boundary logic here
