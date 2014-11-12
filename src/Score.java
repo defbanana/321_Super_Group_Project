@@ -22,7 +22,7 @@ public class Score extends OnScreenObjects {
 	 * @param size The size.
 	 */
 	public Score(Point location, Rectangle size) {
-		super(location, size);
+		super(location, size, 1);
 		score = 0;
 	}
 

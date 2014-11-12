@@ -32,23 +32,7 @@ import javax.swing.Timer;
  */
 public class Game extends JPanel implements KeyListener {
 
-	public static int screenWidth = 600;
-	public static int screenHeight = 500;
-	public static ImageIcon greenBubble = new ImageIcon("green.gif");
-	public static ImageIcon blueBubble = new ImageIcon("blue.gif");
-	public static ImageIcon redBubble = new ImageIcon("red.gif");
-	public static ImageIcon yellowBubble = new ImageIcon("yellow.gif");
-	
-	public static ImageIcon shipImg = new ImageIcon("PlayerShip.gif");
-	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
-
-	public static int asteroidWidth = 80;
-	public static int asteroidHeight = 80;
-	public static int asteroidPoints = 10;
-
-	public static ArrayList<OnScreenObjects> gameObjects;
-	
-	
+	public static ArrayList<OnScreenObjects> gameObjects;	
 	private Score theScore;
 	
 	private javax.swing.Timer timer;
@@ -66,16 +50,15 @@ public class Game extends JPanel implements KeyListener {
 	 * score are added.  The timer begins.
 	 */
 	public Game() {
-		setPreferredSize(new Dimension(screenWidth, screenHeight));
+		setPreferredSize(new Dimension(Assests.screenWidth, Assests.screenHeight));
 		setBackground(Color.black);
 		gameObjects = new ArrayList<OnScreenObjects>();
 		
 		currentLevel = new Level(1);
 
-		
 		addPuzzle();
 		
-		theScore = new Score(new Point(screenWidth/2 - 5, 30),
+		theScore = new Score(new Point(Assests.screenWidth/2 - 5, 30),
 				new Rectangle(0,0));
 		gameObjects.add(theScore);
 		
@@ -103,12 +86,12 @@ public class Game extends JPanel implements KeyListener {
 		}
 
 
-		// add player's ship // for simplicity, let's always add the ship at
+		// add player // for simplicity, let's always add the ship at
 		// index 0
-		int x = screenWidth / 2 - 10;
-		int y = screenHeight;
-		Cannon player = new Cannon(new Point(x, y), new Rectangle(20, 20),
-				shipImg.getImage(), 90, new MyVector(0, 0));
+
+		Cannon player = new Cannon(new Point(Assests.xCannon, Assests.yCannon), 
+				new Rectangle(Assests.xSpacer, Assests.ySpacer),
+				Assests.shipImg.getImage(), 270, new MyVector(0, 0));
 
 		gameObjects.add(0, player); // always at index 0
 
@@ -129,8 +112,8 @@ public class Game extends JPanel implements KeyListener {
 	 * @param g The graphics object for the Screen.
 	 */
 	public void paintComponent(Graphics g) {
-		screenWidth = this.getWidth();
-		screenHeight = this.getHeight();
+		Assests.screenWidth = this.getWidth();
+		Assests.screenHeight = this.getHeight();
 
 		super.paintComponent(g);
 		// g.drawImage(backgroundImg.getImage(),
@@ -145,18 +128,18 @@ public class Game extends JPanel implements KeyListener {
 		if (this.displayPlayNextLife) {
 			g.setColor(Color.white);
 			g.setFont(new Font("Serif", Font.BOLD, 36));
-			g.drawString("You have " + lives + " lives left.", 150, (int) (0.4*screenHeight));
+			g.drawString("You have " + lives + " lives left.", 150, (int) (0.4*Assests.screenHeight));
 			
-			g.drawString("Press Enter to Continue", 135, (int) (0.6*screenHeight));
+			g.drawString("Press Enter to Continue", 135, (int) (0.6*Assests.screenHeight));
 
 		}
 		
 		if (this.displayGameOver) {
 			g.setColor(Color.white);
 			g.setFont(new Font("Serif", Font.BOLD, 36));
-			g.drawString("Game Over", 205, (int) (0.4*screenHeight));
+			g.drawString("Game Over", 205, (int) (0.4*Assests.screenHeight));
 			
-			g.drawString("Would you like to play again? (Y/N)", 30, (int) (0.6*screenHeight));
+			g.drawString("Would you like to play again? (Y/N)", 30, (int) (0.6*Assests.screenHeight));
 
 		}
 		
@@ -164,9 +147,9 @@ public class Game extends JPanel implements KeyListener {
 			g.setColor(Color.white);
 			g.setFont(new Font("Serif", Font.BOLD, 36));
 			g.drawString("You won Level " + 
-					currentLevel.getLevelNumber(), 190, (int) (0.4*screenHeight));
+					currentLevel.getLevelNumber(), 190, (int) (0.4*Assests.screenHeight));
 			
-			g.drawString("Press Enter to Continue", 135, (int) (0.6*screenHeight));
+			g.drawString("Press Enter to Continue", 135, (int) (0.6*Assests.screenHeight));
 
 		}
 	}
@@ -321,20 +304,17 @@ public class Game extends JPanel implements KeyListener {
 
 		case KeyEvent.VK_SPACE:
 			if (player != null) {
-				Point p = player.getLocation();
+				Point p = new Point();
+				p.x = player.getLocation().x + (Assests.xSpacer / 4);
+				p.y = player.getLocation().y - Assests.ySpacer;
+				
 				double a = player.getAngle();
 				////////////////////////////////////////////////////
 				// TODO logic to decide which bubble to send up
-				MyVector v = new MyVector(Math.cos(a), Math.sin(a));
+				MyVector v = new MyVector(Math.cos(Math.toRadians(a)), Math.sin(Math.toRadians(a)));
 				
-				Rectangle r = player.getSize();
-				
-				Bubbles bubble = new Bubbles(new Point(p.x + r.width / 2, p.y + r.height/ 2),
-												 new Rectangle(10, 10),
-												 shipImg.getImage(),
-												 a, 
-												 v);
-
+				Bubbles bubble = new Bubbles(p,new Rectangle(Assests.xSpacer, Assests.ySpacer),
+						Assests.greenBubble.getImage(),a,v);
 	
 				gameObjects.add(bubble);
 			}
@@ -379,12 +359,5 @@ public class Game extends JPanel implements KeyListener {
 
 	}
 
-
-	
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

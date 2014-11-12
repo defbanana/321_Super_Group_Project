@@ -16,7 +16,7 @@ public class Bubbles extends MovingObjects {
 
 
 	public Bubbles(Point p, Rectangle r, Image i, double a, MyVector v) {
-		super(p, r, i, a, v);
+		super(p, r, i, a, v, 1);
 		points=10;
 		myImage = i;
 		

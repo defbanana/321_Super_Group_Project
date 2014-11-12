@@ -35,13 +35,14 @@ protected int maxAge;
  *            The object's orientation.
  */
 	public MovingObjects(Point location, Rectangle size, Image i,
-			double angle, MyVector v) {
+			double angle, MyVector v, int numberOfAnimationFrames) {
 		
-		super(location, size);
+		super(location, size, numberOfAnimationFrames);
 		myImage = i;
 		this.angle = angle;
 		age = 0;
 		maxAge = Integer.MAX_VALUE;
+		vector = new MyVector(v.getChangeX(), v.getChangeY());
 	
 	}
 	
@@ -56,19 +57,8 @@ protected int maxAge;
 		location.x += vector.getChangeX();
 		location.y += vector.getChangeY();
 	
-		if (location.x > Game.screenWidth) {
-			location.x -= Game.screenWidth;
-		}
-		if (location.x < 0) {
-			location.x += Game.screenWidth;
-		}
-	
-		if (location.y > Game.screenHeight) {
-			location.y -= Game.screenHeight;
-		}
-		if (location.y < 0) {
-			location.y += Game.screenHeight;
-		}
+		///////////////////////////////////////////////
+		// TODO Bubble boundary logic here
 
 		age++;
 	
@@ -104,23 +94,16 @@ protected int maxAge;
 	public void draw(Graphics g) {
 		// This section will take care of the rotating gun
 		Graphics2D g2 = (Graphics2D) g;
-		/** if (this instanceof Ship) {
-			Ship ship = (Ship) this;
-	
-			// AffineTransform identity = new AffineTransform();
-			AffineTransform trans = new AffineTransform();
-			// trans.setTransform(identity);
-			trans.translate(location.x, location.y);
-			trans.scale(0.25, 0.25);
-	
-			trans.rotate(Math.toRadians(ship.getAngle()),
-					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
-	
-			g2.drawImage(myImage, trans, null);
-		} else { */
-			g2.drawImage(myImage, location.x, location.y, size.width,
-					size.height, null);
-		//}
+		//AffineTransform identity = new AffineTransform();
+		AffineTransform trans = new AffineTransform();
+		//trans.setTransform(identity);
+		trans.translate(location.x, location.y);
+		trans.scale(0.25, 0.25);
+
+		trans.rotate(Math.toRadians(this.getAngle()),
+				myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
+
+		g2.drawImage(myImage, trans, null);
 	}
 	
 	/**

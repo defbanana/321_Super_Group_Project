@@ -5,13 +5,22 @@ import java.awt.Point;
 
 
 public abstract class OnScreenObjects {
+	
+	private int numberOfAnimationFrames;
+	private int currentAnimationFrame;
+	
+	
 	int hex;
 	int why;
 	protected Point location;
 	protected Rectangle size;
-	public OnScreenObjects(Point p,Rectangle r){
+	
+	public OnScreenObjects(Point p,Rectangle r, int frames){
 		location=p;
 		size=r;
+		
+		numberOfAnimationFrames = frames;
+		currentAnimationFrame = 1;
 	}
 	public Point getLocation() {
 		return location;
@@ -37,6 +46,7 @@ public abstract class OnScreenObjects {
 	public void setSize(Rectangle size) {
 		this.size = size;
 	}
+	
 	public void changeY(int y){
 		int hex = location.x;
 		int why = y;

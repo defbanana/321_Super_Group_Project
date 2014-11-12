@@ -10,28 +10,17 @@ import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 
+
 /**
- * The game's Level determines how hard the game is for the user.
- * For instance, at each level, there may be more asteroids.
- * (In the rules for the game, the small saucer becomes much
- * more accurate in its aim.)
+ * The game's Level 
  * @author guinnc
  *
  */
 public class Level {
-
-	public static ImageIcon greenBubble = new ImageIcon("green.gif");
-	public static ImageIcon blueBubble = new ImageIcon("blue.gif");
-	public static ImageIcon redBubble = new ImageIcon("red.gif");
-	public static ImageIcon yellowBubble = new ImageIcon("yellow.gif");
-	
+		
 	private int levelNumber;
 	private int bubblesInLevel;
-	private final int startX = 220;
-	private final int startY = 100;
-	private final int xSpacer = 20;
-	private final int ySpacer = 20;
-	
+
 	public ArrayList<Bubbles> theHorde = new ArrayList<Bubbles>();
 	
 	/**
@@ -62,7 +51,7 @@ public class Level {
 		    	if (bubbleCount == 24){
 		    		column = 4;
 		    		row = 0;
-		    		nook = xSpacer / 2;
+		    		nook = Assests.xSpacer / 2;
 		    	}
 		    	else if (bubbleCount == 16) {
 		    		column = 3;
@@ -72,17 +61,17 @@ public class Level {
 		    	else if (bubbleCount == 9) {
 		    		row = 0;
 		    		column = 2;
-		    		nook = xSpacer / 2;
+		    		nook = Assests.xSpacer / 2;
 		    	}
 
 		    	
 		    	////////////////////////////////////////
 		    	// level position
 		    	Point p = new Point();
-		    	p.x = startX + (row * xSpacer) + nook;
-		    	p.y = startY + (column * ySpacer);
+		    	p.x = Assests.startX + (row * Assests.xSpacer) + nook;
+		    	p.y = Assests.startY + (column * Assests.ySpacer);
 		    	
-		    	Rectangle r = new Rectangle(xSpacer, ySpacer);
+		    	Rectangle r = new Rectangle(Assests.xSpacer, Assests.ySpacer);
 		    	
 		    	MyVector v = new MyVector(0, 0);
 		    	
@@ -99,23 +88,27 @@ public class Level {
 		    	
 			    	if (bubbleColor.equals("red")){
 			    		
-			    		newBubble = new Bubbles(p, r, redBubble.getImage(), a, v);
+			    		newBubble = new Bubbles(p, r, Assests.redBubble.getImage(), a, v);
 			    		theHorde.add(newBubble);
+			
 			    		
 			    	} else if (bubbleColor.equals("green")){
 			    		
-			    		newBubble = new Bubbles(p, r, greenBubble.getImage(), a, v);
+			    		newBubble = new Bubbles(p, r, Assests.greenBubble.getImage(), a, v);
 			    		theHorde.add(newBubble);
+			 
 			    		
 			    	} else if (bubbleColor.equals("yellow")){
 			    		
-			    		newBubble = new Bubbles(p, r, yellowBubble.getImage(), a, v);
+			    		newBubble = new Bubbles(p, r, Assests.yellowBubble.getImage(), a, v);
 			    		theHorde.add(newBubble);
+			 
 			    		
 			    	} else if (bubbleColor.equals("blue")){
 			    		
-			    		newBubble = new Bubbles(p, r, blueBubble.getImage(), a, v);		
+			    		newBubble = new Bubbles(p, r, Assests.blueBubble.getImage(), a, v);		
 			    		theHorde.add(newBubble);
+			    	
 			    		
 			    	} else {
 			    		
@@ -125,6 +118,7 @@ public class Level {
 		    	}
 		    	catch(NoSuchElementException e){
 		    		System.out.print(e.toString());
+		    		bubblesInLevel--;
 		    	}
 		    	
 		    }
