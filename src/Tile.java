@@ -4,12 +4,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-
-
 /**
  * 
  * Creates a tile object that, provided individual sprite frames, will
- * go through each frame in the array list with each tick
+ * go through each frame in the array list with each tick.
+ * Animation is not determined by input so it always animates in the order of the list
  * 
  * You can pause the animation at any time by calling its pauseAnimation setter
  * You can cause the animation to run only once by setting "runAnimationOnceThenStop"

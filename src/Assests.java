@@ -24,8 +24,9 @@ public class Assests {
 	// Set debug to true to draw debug animations
 	public static boolean debug = false;
 	
-	public static int screenWidth = 600;
-	public static int screenHeight = 500;
+	// Original Screen size of the Nintendo entertainment system... blown up by a factor of 2
+	public static int screenWidth = 256 * 2;
+	public static int screenHeight = 240 * 2;
 	
 	// Size of bubbles
 	public static int xSpacer = 20;

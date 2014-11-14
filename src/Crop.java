@@ -37,6 +37,14 @@ public class Crop extends JPanel
      */
     public Crop(BufferedImage i, Point cropL, Rectangle size)
     {
+    	setImageIcon(i, cropL, size);  
+    }
+    
+    public ImageIcon getImageIcon() {
+    	return cropImageIcon;
+    }
+    
+    public void setImageIcon(BufferedImage i, Point cropL, Rectangle size) {
         image = i;        
         BufferedImage clipped;       
         cropLocation = cropL;
@@ -55,11 +63,6 @@ public class Crop extends JPanel
         
         if (Assests.debug)
         	System.out.println("clipped at " + Integer.toString(cropLocation.x));
-              
-    }
-    
-    public ImageIcon getImageIcon() {
-    	return cropImageIcon;
     }
     
 
