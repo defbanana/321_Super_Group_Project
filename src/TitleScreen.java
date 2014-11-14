@@ -12,7 +12,7 @@ public class TitleScreen {
 	
 //	public TitleScreen(){
 		// sheet(vars)
-		// gameObject.add(Point, Rectangle, sheet.cropped.get(enum.happy0));
+		// gameObject.add(Point, Rectangle, sheet.cropped.get(enum.happy));
 		
 		
 	//}
