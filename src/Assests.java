@@ -1,3 +1,10 @@
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 /**
  * Manages resources
@@ -16,6 +23,8 @@ public class Assests {
 	
 	public static ImageIcon shipImg = new ImageIcon("PlayerShip.gif");
 	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
+	
+	public static BufferedImage tempB = ImageIO.read(new File("blow_bubble_Character.gif"));	
 	
 	////////////////////////////////////////////////////////////////////
 	// Global Constants
@@ -42,9 +51,11 @@ public class Assests {
 	public static int leftSide = (screenWidth / 2) - (xSpacer * 4);
 	public static int rightSide = (screenWidth / 2) + (xSpacer * 4);
 	
+	
 	// Where the bubbles start in the level
 	public static final int startX = leftSide;
 	public static final int startY = (screenHeight / 5);
+	
 	
 	
 }

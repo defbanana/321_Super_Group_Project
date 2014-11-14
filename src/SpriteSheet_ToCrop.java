@@ -11,7 +11,7 @@ public class SpriteSheet_ToCrop {
     private Point cropLocation;
     private Rectangle cropSize;
     
-    ArrayList<ImageIcon> cropped;
+    //ArrayList<ImageIcon> cropped;
 	
     
     
@@ -27,7 +27,7 @@ public class SpriteSheet_ToCrop {
 	public SpriteSheet_ToCrop(BufferedImage i, Point cropL,
 								Rectangle size){
         image = i;        
-        BufferedImage clipped;       
+        //BufferedImage clipped;       
         cropLocation = cropL;
         cropSize = size;
 		

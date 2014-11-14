@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -69,6 +70,10 @@ public class Game extends JPanel implements KeyListener {
 
 		timer = new javax.swing.Timer(30, new TimerListener());
 		timer.start();
+		
+		
+
+
 
 	}
 
@@ -88,7 +93,17 @@ public class Game extends JPanel implements KeyListener {
 			}
 		}
 
-
+		Point testPoint = new Point(50, 50);
+		Rectangle size = new Rectangle(20, 20);
+		Image tempimage = Assests.shipImg.getImage();
+		
+		
+		Crop crop = new Crop(tempB, testPoint, size);
+		tempFrameList.clear();
+		tempFrameList.add(crop.getImageIcon());
+		Tile blowbubble = new Tile(testPoint, size, tempFrameList);
+		gameObjects.add(blowbubble);
+		
 		// add player // for simplicity, let's always add the ship at
 		// index 0
 
