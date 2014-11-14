@@ -244,10 +244,12 @@ public class Game extends JPanel implements KeyListener {
 						
 						if (otherObj instanceof HitRow) {
 							System.out.println("HitRow");
+							
 							if (movingObj.collide(otherObj)) {
 								// Find where it collided, and if a bubble exists there
 								System.out.println(otherObj);
 								((HitRow) otherObj).setHit(true);
+								
 							}
 						}
 					}

@@ -19,7 +19,7 @@ import javax.swing.event.MouseInputAdapter;
  */
 public class Crop extends JPanel
 {
-    BufferedImage image;
+    private BufferedImage image;
 
     private Point cropLocation;
     private Rectangle cropSize;
@@ -37,12 +37,19 @@ public class Crop extends JPanel
      */
     public Crop(BufferedImage i, Point cropL, Rectangle size)
     {
+    	setImageIcon(i, cropL, size);  
+    }
+    
+    public ImageIcon getImageIcon() {
+    	return cropImageIcon;
+    }
+    
+    public void setImageIcon(BufferedImage i, Point cropL, Rectangle size) {
         image = i;        
         BufferedImage clipped;       
         cropLocation = cropL;
         cropSize = size;
-        
-        
+            
 		try
         {
             clipped = image.getSubimage(cropLocation.x, cropLocation.y, cropSize.width, cropSize.height);
@@ -56,11 +63,6 @@ public class Crop extends JPanel
         
         if (Assests.debug)
         	System.out.println("clipped at " + Integer.toString(cropLocation.x));
-              
-    }
-    
-    public ImageIcon getImageIcon() {
-    	return cropImageIcon;
     }
     
 
