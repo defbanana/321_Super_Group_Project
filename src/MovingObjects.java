@@ -80,9 +80,15 @@ protected int maxAge;
 	 * @return True if there is a collision; false, otherwise.
 	 */
 	public boolean collide(OnScreenObjects otherObj) {
+		
 		Rectangle otherR = otherObj.getSize();
+		
 		otherR.setLocation(otherObj.getLocation());
+		
 		this.getSize().setLocation(this.getLocation());
+		
+		
+		
 		if (otherR.intersects(this.getSize())) {
 			return true;
 		}

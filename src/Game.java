@@ -231,6 +231,7 @@ public class Game extends JPanel implements KeyListener {
 				
 				if (obj instanceof MovingObjects) {
 					MovingObjects movingObj = (MovingObjects) obj;
+					
 					// now see if it collides with any other objects
 					for (int j = i + 1; j < gameObjects.size(); j++) {
 						OnScreenObjects otherObj = gameObjects.get(j);
