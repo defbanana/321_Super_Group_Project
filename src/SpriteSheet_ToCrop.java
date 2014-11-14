@@ -10,7 +10,10 @@ public class SpriteSheet_ToCrop {
 	BufferedImage image;
     private Point cropLocation;
     private Rectangle cropSize;
+    
+    ArrayList<ImageIcon> cropped;
 	
+    
     
     /**
      * 
