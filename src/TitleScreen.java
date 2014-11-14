@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+
 
 
 public class TitleScreen {
 
 //	SpriteSheet_ToCrop sheet;
+//  ArrayList<ImageIcon> eachFrame
 	
 //	class enum
 //	{
@@ -12,7 +17,9 @@ public class TitleScreen {
 	
 //	public TitleScreen(){
 		// sheet(vars)
-		// gameObject.add(Point, Rectangle, sheet.cropped.get(enum.happy));
+		// eachFrame.add(sheet.cropped.get(enum.happy))
+		// eachFrame.add(sheet.cropped.get(enum.sad))
+		// gameObject.add(Point, Rectangle, eachFrame);
 		
 		
 	//}
