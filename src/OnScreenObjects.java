@@ -6,21 +6,13 @@ import java.awt.Point;
 
 public abstract class OnScreenObjects {
 	
-	private int numberOfAnimationFrames;
-	private int currentAnimationFrame;
-	
-	
-	int hex;
-	int why;
+
 	protected Point location;
 	protected Rectangle size;
 	
-	public OnScreenObjects(Point p,Rectangle r, int frames){
+	public OnScreenObjects(Point p,Rectangle r) {
 		location=p;
 		size=r;
-		
-		numberOfAnimationFrames = frames;
-		currentAnimationFrame = 1;
 	}
 	public Point getLocation() {
 		return location;
@@ -47,11 +39,5 @@ public abstract class OnScreenObjects {
 		this.size = size;
 	}
 	
-	public void changeY(int y){
-		int hex = location.x;
-		int why = y;
-		location=new Point(hex,why);
-	}
-	// should this be abstract
 	abstract public void draw(Graphics g);
 }

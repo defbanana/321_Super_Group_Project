@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -20,10 +21,12 @@ public class Cannon extends MovingObjects {
 	 * @param i Image of the ship.
 	 */
 	public Cannon(Point location, Rectangle size, Image i, double angle, MyVector v) {
-		super(location, size, i, angle, v, 1);
+		super(location, size, i, angle, v);
 
 		
 	}
+	
+
 
 
 }

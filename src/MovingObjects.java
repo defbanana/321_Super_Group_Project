@@ -35,9 +35,9 @@ protected int maxAge;
  *            The object's orientation.
  */
 	public MovingObjects(Point location, Rectangle size, Image i,
-			double angle, MyVector v, int numberOfAnimationFrames) {
+			double angle, MyVector v) {
 		
-		super(location, size, numberOfAnimationFrames);
+		super(location, size);
 		myImage = i;
 		this.angle = angle;
 		age = 0;
@@ -54,11 +54,19 @@ protected int maxAge;
 	
 	public void move() {
 	
+
 		location.x += vector.getChangeX() * 10;
 		location.y += vector.getChangeY() * 10;
-	
-		///////////////////////////////////////////////
-		// TODO Bubble boundary logic here
+		
+		if (location.x < Assests.leftSide) {
+			location.x = Assests.leftSide;
+			vector.setChangeX(vector.getChangeX() * -1);
+		}
+		
+		if (location.x > Assests.rightSide) {
+			location.x = Assests.rightSide;
+			vector.setChangeX(vector.getChangeX() * -1);
+		}
 
 		age++;
 	
@@ -71,7 +79,7 @@ protected int maxAge;
 	 *            The other moving object.
 	 * @return True if there is a collision; false, otherwise.
 	 */
-	public boolean collide(MovingObjects otherObj) {
+	public boolean collide(OnScreenObjects otherObj) {
 		Rectangle otherR = otherObj.getSize();
 		otherR.setLocation(otherObj.getLocation());
 		this.getSize().setLocation(this.getLocation());
@@ -92,18 +100,33 @@ protected int maxAge;
 	 * Draw the object by displaying its image.
 	 */
 	public void draw(Graphics g) {
-		// This section will take care of the rotating gun
+
 		Graphics2D g2 = (Graphics2D) g;
-		//AffineTransform identity = new AffineTransform();
-		AffineTransform trans = new AffineTransform();
-		//trans.setTransform(identity);
-		trans.translate(location.x, location.y);
-		trans.scale(0.25, 0.25);
+		if (this instanceof Bubbles) {
+			Bubbles bubble = (Bubbles) this;
+			AffineTransform trans = new AffineTransform();
 
-		trans.rotate(Math.toRadians(this.getAngle()),
-				myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
-
-		g2.drawImage(myImage, trans, null);
+			if (bubble.newBubble) {
+				bubble.location.x += vector.getChangeX() * 20;
+				bubble.location.y += vector.getChangeY() * 20;
+				trans.translate(location.x, location.y);
+				bubble.newBubble = false;
+			} else
+				trans.translate(location.x, location.y);
+			
+			trans.scale(0.5, 0.5);
+			g2.drawImage(myImage, trans, null);
+		} else {
+			// This section will take care of the rotating gun
+			AffineTransform trans = new AffineTransform();
+			trans.translate(location.x, location.y);
+			trans.scale(0.25, 0.25);
+	
+			trans.rotate(Math.toRadians(this.getAngle()),
+					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
+	
+			g2.drawImage(myImage, trans, null);
+		}
 	}
 	
 	/**

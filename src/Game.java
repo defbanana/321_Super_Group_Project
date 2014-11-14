@@ -44,6 +44,9 @@ public class Game extends JPanel implements KeyListener {
 	private boolean displayPlayNextLife = false;
 	private boolean displayGameOver = false;
 	private boolean displayNewLevel = false;
+	
+	// Used to store a list of animation frames before passing it to the tile object
+	private ArrayList<ImageIcon> tempFrameList;
 
 	/**
 	 * The screen has a black background.
@@ -99,7 +102,27 @@ public class Game extends JPanel implements KeyListener {
 		// add initial bubbles
 		//////////////////////////////////////////////////////////////////////////////////
 		for (Bubbles bubble : currentLevel.theHorde){
+			
 			gameObjects.add(bubble);
+		}
+		
+		/////////////////////////////////////////////////////////////////////////////////
+		// add row collision targets
+		/////////////////////////////
+		Point p = new Point(Assests.leftSide, Assests.startY - Assests.ySpacer);
+		Rectangle r = new Rectangle(Assests.xSpacer * 8, Assests.ySpacer);
+		HitRow hitRow = new HitRow(p, r, true, true);
+		
+		for (int i = 0; i < 10; i++) {
+			p = new Point(Assests.leftSide, Assests.startY + (i * Assests.ySpacer));
+			r = new Rectangle(Assests.xSpacer * 8, Assests.ySpacer);
+
+			if (i % 2 == 0)
+				hitRow = new HitRow(p, r, true, false);
+			else
+				hitRow = new HitRow(p, r, false, false);
+			
+			gameObjects.add(hitRow);
 		}
 
 		
@@ -198,8 +221,39 @@ public class Game extends JPanel implements KeyListener {
 				}
 			} */
 			
+			////////////////////////////////////////////////////////////
+			// TODO bubble logic here
+			//
+			// before moving, see if there were collisions from
+			// the last movement
+			for (int i = 0; i < gameObjects.size(); i++) {
+				OnScreenObjects obj = gameObjects.get(i);
 				
-					
+				if (obj instanceof MovingObjects) {
+					MovingObjects movingObj = (MovingObjects) obj;
+					// now see if it collides with any other objects
+					for (int j = i + 1; j < gameObjects.size(); j++) {
+						OnScreenObjects otherObj = gameObjects.get(j);
+						if (!(otherObj instanceof HitRow)) {
+							continue;
+						}
+						if (movingObj == otherObj) {
+							continue;  // in other words, don't compare to self
+						}
+						
+						if (otherObj instanceof HitRow) {
+							System.out.println("HitRow");
+							if (movingObj.collide(otherObj)) {
+								// Find where it collided, and if a bubble exists there
+								System.out.println(otherObj);
+								((HitRow) otherObj).setHit(true);
+							}
+						}
+					}
+				}
+			}
+			
+						
 			// move each object
 			for (OnScreenObjects obj : gameObjects) {
 				if (obj instanceof MovingObjects) {
@@ -208,12 +262,7 @@ public class Game extends JPanel implements KeyListener {
 				}
 			}
 			
-			////////////////////////////////////////////////////////////
-			// TODO bubble logic here
-			//////
-			
-			
-			
+						
 			// if lose - stop game and display Next Life 
 			// if there are more lives
 			boolean alive = false;
@@ -285,8 +334,8 @@ public class Game extends JPanel implements KeyListener {
 		case KeyEvent.VK_RIGHT:
 			if (player != null) {
 				double newAngle = player.getAngle() + 5;
-				if (newAngle > 360) {
-					newAngle -= 360;
+				if (newAngle > 355) {
+					newAngle = 355;
 				}
 				player.setAngle(newAngle);
 			}
@@ -295,8 +344,8 @@ public class Game extends JPanel implements KeyListener {
 		case KeyEvent.VK_LEFT:
 			if (player != null) {
 				double newAngle = player.getAngle() - 5;
-				if (newAngle < 0) {
-					newAngle += 360;
+				if (newAngle < 185) {
+					newAngle = 185;
 				}
 				player.setAngle(newAngle);
 			}
@@ -304,18 +353,18 @@ public class Game extends JPanel implements KeyListener {
 
 		case KeyEvent.VK_SPACE:
 			if (player != null) {
-				Point p = new Point();
-				p.x = player.getLocation().x + (Assests.xSpacer / 4);
-				p.y = player.getLocation().y - Assests.ySpacer;
-				
 				double a = player.getAngle();
+				Point p = new Point();
+				p.x = player.getLocation().x;
+				p.y = player.getLocation().y;
+
 				////////////////////////////////////////////////////
 				// TODO logic to decide which bubble to send up
 				MyVector v = new MyVector(Math.cos(Math.toRadians(a)), Math.sin(Math.toRadians(a)));
 				
 				Bubbles bubble = new Bubbles(p,new Rectangle(Assests.xSpacer, Assests.ySpacer),
 						Assests.greenBubble.getImage(),a,v);
-	
+				bubble.setMoving(true);
 				gameObjects.add(bubble);
 			}
 

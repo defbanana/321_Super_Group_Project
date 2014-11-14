@@ -13,12 +13,14 @@ public class Bubbles extends MovingObjects {
 	int row;
 	int column;
 	boolean moving;
+	boolean newBubble;
 
 
 	public Bubbles(Point p, Rectangle r, Image i, double a, MyVector v) {
-		super(p, r, i, a, v, 1);
+		super(p, r, i, a, v);
 		points=10;
 		myImage = i;
+		newBubble = true;
 		
 		// default. not assigned anywhere yet
 		row = 99;
@@ -59,13 +61,7 @@ public class Bubbles extends MovingObjects {
 	public void setPoints(int p){
 		points = p;
 	}
-	
-	public void why(int y){
-		super.changeY(y);
-	}
-	
-	
-	
+		
 	public void pop() throws IOException{
 		//should use animation to show pop.For now.
 		//call animation
@@ -73,10 +69,10 @@ public class Bubbles extends MovingObjects {
 		myImage = ImageIO.read(image3);
 		
 	}
-	@Override
-	public void draw(Graphics g) {
+	//@Override
+	//public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.drawImage(myImage,location.x,location.y,size.width,size.height,null);
+		//g.drawImage(myImage,location.x,location.y,size.width,size.height,null);
 		
-	}
+	//}
 }
