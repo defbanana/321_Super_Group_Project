@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.*;
 import javax.swing.ImageIcon;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -22,7 +23,7 @@ public class Tile extends OnScreenObjects {
 
 	private int numberOfAnimationFrames;
 	private int currentAnimationFrame;
-	ArrayList<ImageIcon> eachFrame;
+	ArrayList<Image> eachFrame;
 	private boolean pauseAnimation;
 	private boolean runAnimationOnceThenStop;
 	
@@ -31,11 +32,11 @@ public class Tile extends OnScreenObjects {
 	 * @param r
 	 * @param frames
 	 */
-	public Tile(Point p, Rectangle r, ArrayList<ImageIcon> eachF) {
+	public Tile(Point p, Rectangle r, ArrayList<Image> eachF) {
 		super(p, r);
 		// TODO Auto-generated constructor stub
 		
-		eachFrame = (ArrayList<ImageIcon>) eachF.clone();
+		eachFrame = (ArrayList<Image>) eachF.clone();
 		numberOfAnimationFrames = eachFrame.size();
 		currentAnimationFrame = 0;
 		pauseAnimation = false;
@@ -63,9 +64,9 @@ public class Tile extends OnScreenObjects {
 	 */
 	@Override
 	public void draw(Graphics g) {
-		ImageIcon myImage = null;
+		Image myImage = null;
 		myImage = eachFrame.get(currentAnimationFrame);
-		g.drawImage(myImage.getImage(),location.x,location.y,size.width,size.height,null);
+		g.drawImage(myImage,location.x,location.y,size.width,size.height,null);
 		
 		if (!pauseAnimation) {						
 			if (currentAnimationFrame == (numberOfAnimationFrames - 1)){

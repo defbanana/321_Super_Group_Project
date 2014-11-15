@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -5,6 +6,7 @@ import java.io.File;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 /**
  * Manages resources
@@ -15,16 +17,16 @@ import javax.swing.ImageIcon;
 
 public class Assests {
 
-	
+	///////////////////////////////////////////////////////////////
+	// Load files into imageIcons ... seems to only work this way
 	public static ImageIcon greenBubble = new ImageIcon("green.gif");
 	public static ImageIcon blueBubble = new ImageIcon("blue.gif");
 	public static ImageIcon redBubble = new ImageIcon("red.gif");
 	public static ImageIcon yellowBubble = new ImageIcon("yellow.gif");
-	
 	public static ImageIcon shipImg = new ImageIcon("PlayerShip.gif");
 	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
+
 	
-	public static BufferedImage tempB = ImageIO.read(new File("blow_bubble_Character.gif"));	
 	
 	////////////////////////////////////////////////////////////////////
 	// Global Constants

@@ -17,14 +17,14 @@ import javax.swing.event.MouseInputAdapter;
  *
  *
  */
-public class Crop extends JPanel
+public class Crop
 {
     private BufferedImage image;
 
     private Point cropLocation;
     private Rectangle cropSize;
     
-    private ImageIcon cropImageIcon;
+    private Image cropImage;
     
     /**
      * 
@@ -37,14 +37,14 @@ public class Crop extends JPanel
      */
     public Crop(BufferedImage i, Point cropL, Rectangle size)
     {
-    	setImageIcon(i, cropL, size);  
+    	setImage(i, cropL, size);  
     }
     
-    public ImageIcon getImageIcon() {
-    	return cropImageIcon;
+    public Image getImage() {
+    	return cropImage;
     }
     
-    public void setImageIcon(BufferedImage i, Point cropL, Rectangle size) {
+    public void setImage(BufferedImage i, Point cropL, Rectangle size) {
         image = i;        
         BufferedImage clipped;       
         cropLocation = cropL;
@@ -52,14 +52,13 @@ public class Crop extends JPanel
             
 		try
         {
-            clipped = image.getSubimage(cropLocation.x, cropLocation.y, cropSize.width, cropSize.height);
+            cropImage = image.getSubimage(cropLocation.x, cropLocation.y, cropSize.width, cropSize.height);
         }
         catch(RasterFormatException rfe)
         {
             System.out.println("raster format error: " + rfe.getMessage());
             return;
         }
-        ImageIcon newImageIcon = new ImageIcon(clipped);
         
         if (Assests.debug)
         	System.out.println("clipped at " + Integer.toString(cropLocation.x));

@@ -47,7 +47,7 @@ public class Game extends JPanel implements KeyListener {
 	private boolean displayNewLevel = false;
 	
 	// Used to store a list of animation frames before passing it to the tile object
-	private ArrayList<ImageIcon> tempFrameList;
+	private ArrayList<Image> tempFrameList;
 
 	/**
 	 * The screen has a black background.
@@ -59,7 +59,7 @@ public class Game extends JPanel implements KeyListener {
 		gameObjects = new ArrayList<OnScreenObjects>();
 		
 		currentLevel = new Level(1);
-
+		loadSprites();
 		addPuzzle();
 		
 		theScore = new Score(new Point(Assests.screenWidth/2 - 5, 30),
@@ -71,12 +71,22 @@ public class Game extends JPanel implements KeyListener {
 		timer = new javax.swing.Timer(30, new TimerListener());
 		timer.start();
 		
-		
-
-
 
 	}
 
+	public void loadSprites() {
+		///////////////////////////////////////////////////////////
+		// Load all the sprites
+		SpriteSheet_ToCrop newSpriteSheet = new SpriteSheet_ToCrop();
+		
+		//First Sprite
+		Point point = new Point(0,0);
+		Rectangle size = new Rectangle(40,40);
+		Tile Blow_Bubble_Character = new Tile(point, size, newSpriteSheet.blow_bubble_characterList);
+		gameObjects.add(Blow_Bubble_Character);
+		
+		//Next sprite
+	}
 	/**
 	 * This method removes all moving objects from the screen and
 	 * creates and adds new ones.  
@@ -93,25 +103,21 @@ public class Game extends JPanel implements KeyListener {
 			}
 		}
 
-		Point testPoint = new Point(50, 50);
-		Rectangle size = new Rectangle(20, 20);
-		Image tempimage = Assests.shipImg.getImage();
-		
-		
-		Crop crop = new Crop(tempB, testPoint, size);
-		tempFrameList.clear();
-		tempFrameList.add(crop.getImageIcon());
-		Tile blowbubble = new Tile(testPoint, size, tempFrameList);
-		gameObjects.add(blowbubble);
 		
 		// add player // for simplicity, let's always add the ship at
 		// index 0
 
+		
 		Cannon player = new Cannon(new Point(Assests.xCannon, Assests.yCannon), 
 				new Rectangle(Assests.xSpacer, Assests.ySpacer),
 				Assests.shipImg.getImage(), 270, new MyVector(0, 0));
 
+		
+		// inserts player object at index 0
 		gameObjects.add(0, player); // always at index 0
+		
+		
+
 
 		//////////////////////////////////////////////////////////////////////////////////
 		// add initial bubbles
