@@ -10,6 +10,7 @@
 /HitRow.class
 /Level.class
 /MovingObjects.class
+/MovingTileObject.class
 /MyVector.class
 /OnScreenObjects.class
 /Score.class
@@ -17,4 +18,5 @@
 /SpriteSheet_ToCrop.class
 /Tile.class
 /TitleScreen.class
-/MovingTileObject.class
+/BGmusic.class
+/BGmusic$1.class

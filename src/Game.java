@@ -70,7 +70,8 @@ public class Game extends JPanel implements KeyListener {
 
 		timer = new javax.swing.Timer(30, new TimerListener());
 		timer.start();
-		
+	
+		BGmusic.play("Puzzle_Bobble_-_Arcade_-_In-Game.wav");
 
 	}
 
@@ -110,7 +111,7 @@ public class Game extends JPanel implements KeyListener {
 		
 		Cannon player = new Cannon(new Point(Assests.xCannon, Assests.yCannon), 
 				new Rectangle(Assests.xSpacer, Assests.ySpacer),
-				Assests.shipImg.getImage(), 270, new MyVector(0, 0));
+				Assests.cannonPointer.getImage(), 270, new MyVector(0, 0));
 
 		
 		// inserts player object at index 0

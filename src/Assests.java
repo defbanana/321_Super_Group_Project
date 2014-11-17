@@ -23,7 +23,7 @@ public class Assests {
 	public static ImageIcon blueBubble = new ImageIcon("blue.gif");
 	public static ImageIcon redBubble = new ImageIcon("red.gif");
 	public static ImageIcon yellowBubble = new ImageIcon("yellow.gif");
-	public static ImageIcon shipImg = new ImageIcon("PlayerShip.gif");
+	public static ImageIcon cannonPointer = new ImageIcon("cannon-pointer.gif");
 	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
 
 	
