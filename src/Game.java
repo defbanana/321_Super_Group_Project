@@ -59,7 +59,12 @@ public class Game extends JPanel implements KeyListener {
 		gameObjects = new ArrayList<OnScreenObjects>();
 		
 		currentLevel = new Level(1);
+		
+		//////////////////////////////////////////////////
+		// cropping images from a single sprite sheet. Loading them into frame arrays
+		// Then assigning them to tiles that animate.
 		loadSprites();
+		
 		addPuzzle();
 		
 		theScore = new Score(new Point(Assests.screenWidth/2 - 5, 30),
@@ -74,12 +79,14 @@ public class Game extends JPanel implements KeyListener {
 		BGmusic.play("Puzzle_Bobble_-_Arcade_-_In-Game.wav");
 		
 	}
-
+	
+	
+	///////////////////////////////////////////////////////////
+	// Load all the sprites
 	public void loadSprites() {
-		///////////////////////////////////////////////////////////
-		// Load all the sprites
 		SpriteSheet_ToCrop newSpriteSheet = new SpriteSheet_ToCrop();
 		
+		///////////////////////////////////////////////////////////
 		//First Sprite
 		Point point = new Point(0,0);
 		Rectangle size = new Rectangle(40,40);
@@ -87,7 +94,10 @@ public class Game extends JPanel implements KeyListener {
 		gameObjects.add(Blow_Bubble_Character);
 		
 		//Next sprite
+		// etc ...
 	}
+	
+	
 	/**
 	 * This method removes all moving objects from the screen and
 	 * creates and adds new ones.  
