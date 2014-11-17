@@ -72,7 +72,7 @@ public class Game extends JPanel implements KeyListener {
 		timer.start();
 	
 		BGmusic.play("Puzzle_Bobble_-_Arcade_-_In-Game.wav");
-
+		
 	}
 
 	public void loadSprites() {

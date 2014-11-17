@@ -20,7 +20,6 @@ public class BGmusic
     public static synchronized void play(final String fileName) 
 
     {
-
         // Note: use .wav files             
 
         new Thread(new Runnable() { 
@@ -28,6 +27,7 @@ public class BGmusic
         	/**
         	 * This is what really gets the sound playing and checks for missing/wrong files.
         	 */
+        	
             public void run() {
 
                 try {
@@ -49,6 +49,7 @@ public class BGmusic
                 }
 
             }
+     
 
         }).start();
 
