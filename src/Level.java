@@ -20,6 +20,7 @@ public class Level {
 		
 	private int levelNumber;
 	private int bubblesInLevel;
+	private SpriteSheet_ToCrop newSpriteSheet;
 
 	public ArrayList<Bubbles> theHorde = new ArrayList<Bubbles>();
 	
@@ -29,6 +30,7 @@ public class Level {
 	 * @param number The level value.
 	 */
 	public Level(int number) {
+		newSpriteSheet = new SpriteSheet_ToCrop();
 		levelNumber = number;
 		File bubbleFile = new File("bubbles"+ Integer.toString(number) + ".txt");
 		bubblesInLevel = -1;
@@ -88,28 +90,28 @@ public class Level {
 		    	
 			    	if (bubbleColor.equals("red")){
 			    		
-			    		newBubble = new Bubbles(p, r, Assests.redBubble.getImage(), a, v);
+			    		newBubble = new Bubbles(p, r, Assests.redBubble.getImage(), a, v, newSpriteSheet.blue_bubbleList);
 			    		newBubble.newBubble = false;
 			    		theHorde.add(newBubble);
 			
 			    		
 			    	} else if (bubbleColor.equals("green")){
 			    		
-			    		newBubble = new Bubbles(p, r, Assests.greenBubble.getImage(), a, v);
+			    		newBubble = new Bubbles(p, r, Assests.greenBubble.getImage(), a, v, newSpriteSheet.blue_bubbleList);
 			    		newBubble.newBubble = false;
 			    		theHorde.add(newBubble);
 			 
 			    		
 			    	} else if (bubbleColor.equals("yellow")){
 			    		
-			    		newBubble = new Bubbles(p, r, Assests.yellowBubble.getImage(), a, v);
+			    		newBubble = new Bubbles(p, r, Assests.yellowBubble.getImage(), a, v, newSpriteSheet.blue_bubbleList);
 			    		newBubble.newBubble = false;
 			    		theHorde.add(newBubble);
 			 
 			    		
 			    	} else if (bubbleColor.equals("blue")){
 			    		
-			    		newBubble = new Bubbles(p, r, Assests.blueBubble.getImage(), a, v);	
+			    		newBubble = new Bubbles(p, r, Assests.blueBubble.getImage(), a, v, newSpriteSheet.blue_bubbleList);	
 			    		newBubble.newBubble = false;
 			    		theHorde.add(newBubble);
 			    	

@@ -5,10 +5,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Random;
 
-/**
- * 
- */
 
 /**
  * @author Jesse_Macbook_Pro
@@ -21,6 +19,10 @@ public class MovingTileObject extends MovingObjects {
 	ArrayList<Image> eachFrame;
 	private boolean pauseAnimation;
 	private boolean runAnimationOnceThenStop;
+	private boolean Animate;
+	private Random rand;
+	private boolean RandomMoving;
+
 	
 	/**
 	 * @param location
@@ -33,10 +35,15 @@ public class MovingTileObject extends MovingObjects {
 			double angle, MyVector v, ArrayList<Image> eachF) {
 		super(location, size, i, angle, v);
 		
-		eachFrame = (ArrayList<Image>) eachF.clone();
+		eachFrame = new ArrayList<Image>();
+		eachFrame.addAll(eachF);
+		
 		numberOfAnimationFrames = eachFrame.size();
 		currentAnimationFrame = 0;
 		pauseAnimation = false;
+		Animate = false;
+		RandomMoving = true;
+		runAnimationOnceThenStop = true;
 
 	}
 
@@ -61,29 +68,58 @@ public class MovingTileObject extends MovingObjects {
 	 */
 	@Override
 	public void draw(Graphics g) {
-		
-		Graphics2D g2 = (Graphics2D) g;
+		int n;
 
-		// This section will take care of the rotating gun
-		AffineTransform trans = new AffineTransform();
-		trans.translate(location.x, location.y);
-//		trans.scale(0.25, 0.25);
+		if (Animate){
 
-		trans.rotate(Math.toRadians(this.getAngle()),
-				myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
+			Graphics2D g2 = (Graphics2D) g;
+			System.out.println(currentAnimationFrame);
+			myImage = eachFrame.get(currentAnimationFrame);
+	
+			// This section will take care of the rotating gun
+			AffineTransform trans = new AffineTransform();
+			trans.translate(location.x, location.y);
 
-		Image myImage = null;
-		myImage = eachFrame.get(currentAnimationFrame);
-		g2.drawImage(myImage, trans, null);
-		
-		if (!pauseAnimation) {						
-			if (currentAnimationFrame == (numberOfAnimationFrames - 1)){
-				if (!runAnimationOnceThenStop)
-					currentAnimationFrame = 0;
+			trans.rotate(Math.toRadians(this.getAngle()),
+					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
+			g2.drawImage(myImage, trans, null);
+	
+	
+			if (!pauseAnimation) {						
+				if (currentAnimationFrame == (numberOfAnimationFrames - 1)){
+					if (!runAnimationOnceThenStop){
+						currentAnimationFrame = 0;						
+					}
+					else
+						Animate = false;
+
+				}
+				else
+					currentAnimationFrame++;			
 			}
-			else
-				currentAnimationFrame++;			
 		}
+		else {
+			if (RandomMoving)
+			{
+				rand = new Random();
+				n = rand.nextInt(1000);
+				if (n > 995)
+					Animate = true;
+			}
+			
+			Graphics2D g2 = (Graphics2D) g;
+			System.out.println(currentAnimationFrame);
+			myImage = eachFrame.get(currentAnimationFrame);
+	
+			// This section will take care of the rotating gun
+			AffineTransform trans = new AffineTransform();
+			trans.translate(location.x, location.y);
+	//		trans.scale(0.25, 0.25);
+			trans.rotate(Math.toRadians(this.getAngle()),
+					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
+			g2.drawImage(myImage, trans, null);
+		}
+		
 	}
 
 

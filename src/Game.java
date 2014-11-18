@@ -34,6 +34,7 @@ import javax.swing.Timer;
 public class Game extends JPanel implements KeyListener {
 
 	public static ArrayList<OnScreenObjects> gameObjects;	
+	private SpriteSheet_ToCrop newSpriteSheet;
 	private Score theScore;
 	
 	private javax.swing.Timer timer;
@@ -73,7 +74,7 @@ public class Game extends JPanel implements KeyListener {
 		
 		this.addKeyListener(this);
 
-		timer = new javax.swing.Timer(30, new TimerListener());
+		timer = new javax.swing.Timer(45, new TimerListener());
 		timer.start();
 		
 
@@ -83,12 +84,12 @@ public class Game extends JPanel implements KeyListener {
 	///////////////////////////////////////////////////////////
 	// Load all the sprites
 	public void loadSprites() {
-		SpriteSheet_ToCrop newSpriteSheet = new SpriteSheet_ToCrop();
+		newSpriteSheet = new SpriteSheet_ToCrop();
 		
 		///////////////////////////////////////////////////////////
 		//First Sprite
 		Point point = new Point(0,0);
-		Rectangle size = new Rectangle(40,40);
+		Rectangle size = new Rectangle(10,10);
 		Tile Blow_Bubble_Character = new Tile(point, size, newSpriteSheet.blow_bubble_characterList);
 		gameObjects.add(Blow_Bubble_Character);
 		
@@ -397,7 +398,7 @@ public class Game extends JPanel implements KeyListener {
 				MyVector v = new MyVector(Math.cos(Math.toRadians(a)), Math.sin(Math.toRadians(a)));
 				
 				Bubbles bubble = new Bubbles(p,new Rectangle(Assests.xSpacer, Assests.ySpacer),
-						Assests.greenBubble.getImage(),a,v);
+						Assests.greenBubble.getImage(),a,v, newSpriteSheet.blue_bubbleList);
 				bubble.setMoving(true);
 				gameObjects.add(bubble);
 			}

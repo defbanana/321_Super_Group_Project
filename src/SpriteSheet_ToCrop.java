@@ -24,7 +24,7 @@ public class SpriteSheet_ToCrop {
 	
 	// The constructor will build all the array lists for each sprite that animates
 	// with each sprite there should be a corresponding array-list listed here
-	public static ArrayList<Image> blow_bubble_characterList = new ArrayList<Image>();
+	public ArrayList<Image> blow_bubble_characterList = new ArrayList<Image>();
 	private Point firstPoint;
 	private Rectangle firstSize;
 	
@@ -57,11 +57,25 @@ public class SpriteSheet_ToCrop {
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Initialization work for the next sprite sheet
 	// etc...
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Initialization work for the blow_bubble_character sprite sheet   
+	private ImageIcon normal_bubbles = new ImageIcon("normal_bubbles.png");
+	public ArrayList<Image> blue_bubbleList = new ArrayList<Image>();
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// Once all the variables are defined... use the constructor to do all the cropping and
 	// ArrayList building
 	public SpriteSheet_ToCrop() {
+		Blow_Bubble_Character();
+		Blue_Bubble();
+
+		
+	}
+	
+	private void Blow_Bubble_Character(){
 		///////////////////////////////////////////////////////////////////////////////
 		// build the blow_bubble_character sprite array list
 		BufferedImage bb_characterSheet = new BufferedImage(
@@ -76,11 +90,11 @@ public class SpriteSheet_ToCrop {
 		g.dispose();
 		
 		// each sprite is 20 pixels long for example
-		int imageSizeMultiplier = 30;
-		int numberOfFrames = 6;
+		int imageSizeMultiplier = 18;
+		int numberOfFrames = 5;
 		// Get the sprite-sheet from file
-		firstPoint = new Point(0,0);
-		firstSize = new Rectangle(30, 30);
+		firstPoint = new Point(10,10);
+		firstSize = new Rectangle(18, 18);
 		cropASpriteSheet = new Crop(bb_characterSheet, firstPoint, firstSize);
 		System.out.println(cropASpriteSheet.getImage().toString());
 		
@@ -90,7 +104,7 @@ public class SpriteSheet_ToCrop {
 			blow_bubble_characterList.add((Image)cropASpriteSheet.getImage());
 			
 			// Move crop to the next frame on the sheet
-			firstPoint.x += imageSizeMultiplier;
+			firstPoint.x += imageSizeMultiplier + 3;
 
 			try{
 				cropASpriteSheet.setImage(bb_characterSheet, firstPoint, firstSize);
@@ -100,14 +114,47 @@ public class SpriteSheet_ToCrop {
 					System.out.println(e.toString());
 			}
 		}
+	}
+	
+	private void Blue_Bubble(){
 
 
 		// End of he blow_bubble_character sprite array list construction
 
+///////////////////////////////////////////////////////////////////////////////
+
 		///////////////////////////////////////////////////////////////////////////////
-		// build the next sprite array list
+		// build the  sprite array list
+		BufferedImage normal_bubblesIcon = new BufferedImage(
+				normal_bubbles.getIconWidth(),
+				normal_bubbles.getIconHeight(),
+				
+			    BufferedImage.TYPE_INT_ARGB);
 		
+		Graphics g2 = normal_bubblesIcon.createGraphics();
+		// paint the Icon to the BufferedImage.
+		normal_bubbles.paintIcon(null, g2, 0,0);
+		g2.dispose();
 		
+		// each sprite is ... pixels long for example
+		int imageSizeMultiplier = 18;
+		int numberOfFrames = 5;
+		// Get the sprite-sheet from file
+		firstPoint = new Point(10,8);
+		firstSize = new Rectangle(16, 16);
+		cropASpriteSheet = new Crop(normal_bubblesIcon, firstPoint, firstSize);
+		//System.out.println(cropASpriteSheet.getImage().toString());
+		
+		// Do the work of getting the frames put into the array
+		for (int i = 0; i < numberOfFrames; i++){
+			// Crop and add to the blow bubbles frame list
+			blue_bubbleList.add((Image)cropASpriteSheet.getImage());
+			
+			// Move crop to the next frame on the sheet
+			firstPoint.x += imageSizeMultiplier +  2;
+			cropASpriteSheet.setImage(normal_bubblesIcon, firstPoint, firstSize);
+
+		}
 	}
 	
 	

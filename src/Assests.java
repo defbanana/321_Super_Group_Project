@@ -27,7 +27,6 @@ public class Assests {
 	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
 
 	
-	
 	////////////////////////////////////////////////////////////////////
 	// Global Constants
 	///////////////////
@@ -40,8 +39,8 @@ public class Assests {
 	public static int screenHeight = 240 * 2;
 	
 	// Size of bubbles
-	public static int xSpacer = 20;
-	public static int ySpacer = 20;
+	public static int xSpacer = 15;
+	public static int ySpacer = 15;
 	public static int nook = xSpacer / 2;
 
 
