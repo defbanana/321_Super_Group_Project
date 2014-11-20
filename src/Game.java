@@ -82,7 +82,7 @@ public class Game extends JPanel implements KeyListener {
 	
 	
 	///////////////////////////////////////////////////////////
-	// Load all the sprites
+	// Load all the game sprites
 	public void loadSprites() {
 		newSpriteSheet = new SpriteSheet_ToCrop();
 		
@@ -90,8 +90,8 @@ public class Game extends JPanel implements KeyListener {
 		//First Sprite
 		Point point = new Point(0,0);
 		Rectangle size = new Rectangle(10,10);
-		Tile Blow_Bubble_Character = new Tile(point, size, newSpriteSheet.blow_bubble_characterList);
-		gameObjects.add(Blow_Bubble_Character);
+		//Tile Blow_Bubble_Character = new Tile(point, size, newSpriteSheet.blow_bubble_characterList);
+		//gameObjects.add(Blow_Bubble_Character);
 		
 		//Next sprite
 		// etc ...
@@ -104,7 +104,6 @@ public class Game extends JPanel implements KeyListener {
 	 */
 	public void addPuzzle() {
 		
-		
 		// remove all moving objects
 		Iterator<OnScreenObjects> it = gameObjects.iterator();
 		while (it.hasNext()) {
@@ -114,21 +113,34 @@ public class Game extends JPanel implements KeyListener {
 			}
 		}
 
-		
-		// add player // for simplicity, let's always add the ship at
-		// index 0
-
+			
+		//////////////////////////////////////////////////////////////////////
+		// layer the different parts of the cannon
+		ScreenProps cannonProp = new ScreenProps(new Point(Assests.xCannon + 24, Assests.yCannon), 
+				new Rectangle(10,10),Assests.cannonStand.getImage());
+		gameObjects.add(0, cannonProp);
 		
 		Cannon player = new Cannon(new Point(Assests.xCannon, Assests.yCannon), 
-				new Rectangle(Assests.xSpacer, Assests.ySpacer),
-				Assests.shipImg.getImage(), 270, new MyVector(0, 0));
+				new Rectangle(10,10),
+				Assests.cannonPointer.getImage(), 270, new MyVector(0, 0));
 
+		gameObjects.add(1, player); // always at index 1
 		
-		// inserts player object at index 0
-		gameObjects.add(0, player); // always at index 0
+		//////////////////////
+		// first bubble
 		
-		
+		double a = player.getAngle();
+		Point firstP = new Point(player.getLocation().x + 40, player.getLocation().y + 15);
 
+		////////////////////////////////////////////////////
+		// TODO logic to decide which bubble to send up
+		MyVector v = new MyVector(0,0);
+		
+		
+		Bubbles firstBubble = new Bubbles(firstP, new Rectangle(Assests.xSpacer, Assests.ySpacer),
+				Assests.greenBubble.getImage(),a,v, newSpriteSheet.blue_bubbleList);
+		
+		gameObjects.add(2, firstBubble);
 
 		//////////////////////////////////////////////////////////////////////////////////
 		// add initial bubbles
@@ -345,8 +357,8 @@ public class Game extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent event) {
 		int keyCode = event.getKeyCode();
 		Cannon player = null;
-		if (gameObjects.get(0) instanceof Cannon) {
-			player = (Cannon) gameObjects.get(0);
+		if (gameObjects.get(1) instanceof Cannon) {
+			player = (Cannon) gameObjects.get(1);
 		}
 		switch (keyCode) {
 		
@@ -387,20 +399,32 @@ public class Game extends JPanel implements KeyListener {
 			break;
 
 		case KeyEvent.VK_SPACE:
+			////////////////////////////////////////////////////
+			// TODO logic to decide which bubble to send up
 			if (player != null) {
 				double a = player.getAngle();
 				Point p = new Point();
-				p.x = player.getLocation().x;
-				p.y = player.getLocation().y;
+				p.x = player.getLocation().x + 40;
+				p.y = player.getLocation().y + 15;
+				MyVector loadedV = new MyVector(0,0);
 
-				////////////////////////////////////////////////////
-				// TODO logic to decide which bubble to send up
-				MyVector v = new MyVector(Math.cos(Math.toRadians(a)), Math.sin(Math.toRadians(a)));
+
 				
+				////////////////////////////////////////////////////
+				// First, shoot the bubble waiting in the queue
+				MyVector v = new MyVector(Math.cos(Math.toRadians(a)), Math.sin(Math.toRadians(a)));
+				Bubbles shotBubble = (Bubbles) gameObjects.get(2);
+				gameObjects.remove(2);
+				shotBubble.vector = v;
+				gameObjects.add(shotBubble);
+				
+				////////////////////////////////////////////////////
+				// load next bubble
 				Bubbles bubble = new Bubbles(p,new Rectangle(Assests.xSpacer, Assests.ySpacer),
-						Assests.greenBubble.getImage(),a,v, newSpriteSheet.blue_bubbleList);
+						Assests.greenBubble.getImage(),a,loadedV, newSpriteSheet.blue_bubbleList);
+				
 				bubble.setMoving(true);
-				gameObjects.add(bubble);
+				gameObjects.add(2, bubble);
 			}
 
 			break;

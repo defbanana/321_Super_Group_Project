@@ -108,31 +108,18 @@ protected int maxAge;
 	public void draw(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
-		if (this instanceof Bubbles) {
-			Bubbles bubble = (Bubbles) this;
-			AffineTransform trans = new AffineTransform();
 
-			if (bubble.newBubble) {
-				bubble.location.x += vector.getChangeX() * 20;
-				bubble.location.y += vector.getChangeY() * 20;
-				trans.translate(location.x, location.y);
-				bubble.newBubble = false;
-			} else
-				trans.translate(location.x, location.y);
-			
-			trans.scale(0.5, 0.5);
-			g2.drawImage(myImage, trans, null);
-		} else {
-			// This section will take care of the rotating gun
-			AffineTransform trans = new AffineTransform();
-			trans.translate(location.x, location.y);
-			trans.scale(0.25, 0.25);
 	
-			trans.rotate(Math.toRadians(this.getAngle()),
-					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
-	
-			g2.drawImage(myImage, trans, null);
-		}
+		// This section will take care of the rotating gun
+		AffineTransform trans = new AffineTransform();
+		trans.translate(location.x, location.y);
+		trans.scale(Assests.scale, Assests.scale);
+
+		trans.rotate(Math.toRadians(this.getAngle()),
+				myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
+
+		g2.drawImage(myImage, trans, null);
+		
 	}
 	
 	/**

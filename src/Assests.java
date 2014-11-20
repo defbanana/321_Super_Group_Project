@@ -25,7 +25,9 @@ public class Assests {
 	public static ImageIcon yellowBubble = new ImageIcon("yellow.gif");
 	public static ImageIcon shipImg = new ImageIcon("PlayerShip.gif");
 	public static ImageIcon explosionImg = new ImageIcon("explosion1.gif");
-
+	
+	public static ImageIcon cannonStand = new ImageIcon("Cannon-Stand.gif");
+	public static ImageIcon cannonPointer = new ImageIcon("cannon-pointer.gif");
 	
 	////////////////////////////////////////////////////////////////////
 	// Global Constants
@@ -37,16 +39,15 @@ public class Assests {
 	// Original Screen size of the Nintendo entertainment system... blown up by a factor of 2
 	public static int screenWidth = 256 * 2;
 	public static int screenHeight = 240 * 2;
+	public static double scale = 2.0;
 	
 	// Size of bubbles
-	public static int xSpacer = 15;
-	public static int ySpacer = 15;
+	public static int xSpacer = 32;
+	public static int ySpacer = 32;
 	public static int nook = xSpacer / 2;
-
-
 	
 	// Cannon placement
-	public static int xCannon = screenWidth / 2 - (xSpacer / 2);
+	public static int xCannon = screenWidth / 2 - 50;
 	public static int yCannon = screenHeight / 2 + (screenHeight / 5);
 	
 	public static int leftSide = (screenWidth / 2) - (xSpacer * 4);
@@ -55,7 +56,7 @@ public class Assests {
 	
 	// Where the bubbles start in the level
 	public static final int startX = leftSide;
-	public static final int startY = (screenHeight / 5);
+	public static final int startY = 20;
 	
 	
 	

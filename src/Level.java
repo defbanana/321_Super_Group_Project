@@ -90,21 +90,21 @@ public class Level {
 		    	
 			    	if (bubbleColor.equals("red")){
 			    		
-			    		newBubble = new Bubbles(p, r, Assests.redBubble.getImage(), a, v, newSpriteSheet.blue_bubbleList);
+			    		newBubble = new Bubbles(p, r, Assests.redBubble.getImage(), a, v, newSpriteSheet.red_bubbleList);
 			    		newBubble.newBubble = false;
 			    		theHorde.add(newBubble);
 			
 			    		
 			    	} else if (bubbleColor.equals("green")){
 			    		
-			    		newBubble = new Bubbles(p, r, Assests.greenBubble.getImage(), a, v, newSpriteSheet.blue_bubbleList);
+			    		newBubble = new Bubbles(p, r, Assests.greenBubble.getImage(), a, v, newSpriteSheet.green_bubbleList);
 			    		newBubble.newBubble = false;
 			    		theHorde.add(newBubble);
 			 
 			    		
 			    	} else if (bubbleColor.equals("yellow")){
 			    		
-			    		newBubble = new Bubbles(p, r, Assests.yellowBubble.getImage(), a, v, newSpriteSheet.blue_bubbleList);
+			    		newBubble = new Bubbles(p, r, Assests.yellowBubble.getImage(), a, v, newSpriteSheet.yellow_bubbleList);
 			    		newBubble.newBubble = false;
 			    		theHorde.add(newBubble);
 			 

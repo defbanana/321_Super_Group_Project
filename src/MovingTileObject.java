@@ -69,17 +69,23 @@ public class MovingTileObject extends MovingObjects {
 	@Override
 	public void draw(Graphics g) {
 		int n;
+		Graphics2D g2 = (Graphics2D) g;
+		AffineTransform trans = new AffineTransform();
+		
+	 	if (Animate){
 
-		if (Animate){
-
-			Graphics2D g2 = (Graphics2D) g;
-			System.out.println(currentAnimationFrame);
+			if (Assests.debug)
+			{
+				System.out.println("Current Animation Frame:");
+				System.out.println(currentAnimationFrame);
+			}
+			
 			myImage = eachFrame.get(currentAnimationFrame);
 	
 			// This section will take care of the rotating gun
-			AffineTransform trans = new AffineTransform();
-			trans.translate(location.x, location.y);
 
+			trans.translate(location.x, location.y);
+			trans.scale(Assests.scale, Assests.scale);
 			trans.rotate(Math.toRadians(this.getAngle()),
 					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
 			g2.drawImage(myImage, trans, null);
@@ -98,7 +104,8 @@ public class MovingTileObject extends MovingObjects {
 					currentAnimationFrame++;			
 			}
 		}
-		else {
+		else 
+		{
 			if (RandomMoving)
 			{
 				rand = new Random();
@@ -107,20 +114,16 @@ public class MovingTileObject extends MovingObjects {
 					Animate = true;
 			}
 			
-			Graphics2D g2 = (Graphics2D) g;
+
 			System.out.println(currentAnimationFrame);
 			myImage = eachFrame.get(currentAnimationFrame);
-	
-			// This section will take care of the rotating gun
-			AffineTransform trans = new AffineTransform();
+
 			trans.translate(location.x, location.y);
-	//		trans.scale(0.25, 0.25);
+			trans.scale(Assests.scale, Assests.scale);
 			trans.rotate(Math.toRadians(this.getAngle()),
 					myImage.getWidth(null) / 2, myImage.getHeight(null) / 2);
 			g2.drawImage(myImage, trans, null);
 		}
-		
 	}
-
-
+	
 }
